@@ -8,13 +8,13 @@ Approach: Using NCBI GenBank and Ensembl, we will gather E. coli genomic sequenc
 
 How SRR/ERR were obtained:
 
-1. Used: https://www.ncbi.nlm.nih.gov/sra
-2. In the search bar, entered the organism and strain we were interested in (e.g., E. coli K-12 MG1655).
-3. Selected 30 samples.
-4. Clicked "Send to," then selected "File."
-5. Changed the format to "Accession List."
-6. Downloaded the list.
-7. Added the SRR/ERR to the repository.
+- Used: https://www.ncbi.nlm.nih.gov/sra
+- In the search bar, entered the organism and strain we were interested in (e.g., E. coli K-12 MG1655).
+- Selected 30 samples.
+- Clicked "Send to," then selected "File."
+- Changed the format to "Accession List."
+- Downloaded the list.
+- Added the SRR/ERR to the repository.
 
 
 1. Data Retrieval:
