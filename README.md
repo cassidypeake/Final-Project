@@ -19,13 +19,12 @@ How SRR/ERR were obtained:
 - Added the SRR/ERR to the repository.
 
 
-STEP 3
-Data Retrieval: sra-toolkit, rclone
-Preprocessing: FastQC, Trimmomatic
-GC Content Calculation: fastx-toolkit, bedtools
-Visualization: python/3.8.6, matplotlib
-Gene Annotation: GeneMark-ES, prokka
-Pathogenicity Assessment: CheckM
-Comparative Analysis: bedtools
+STEP 3 (all in HPC)
+- Data Retrieval: sra-toolkit, rclone
+- Preprocessing: FastQC, Trimmomatic
+- GC Content Calculation: fastx-toolkit, bedtools
+- Visualization: python/3.8.6, matplotlib
+- Gene Annotation: GeneMark-ES, prokka
+- Pathogenicity Assessment: CheckM
+- Comparative Analysis: bedtools
 
-- all in HPC
