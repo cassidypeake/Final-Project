@@ -12,7 +12,7 @@ How SRR/ERR were obtained:
 
 - Used: https://www.ncbi.nlm.nih.gov/sra
 - In the search bar, entered the organism and strain we were interested in (e.g., E. coli K-12 MG1655).
-- Selected 30 samples.
+- Selected 10 samples.
 - Clicked "Send to," then selected "File."
 - Changed the format to "Accession List."
 - Downloaded the list.
