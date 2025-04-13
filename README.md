@@ -186,17 +186,33 @@ bash merge_gc_with_sources.sh
 - File new scrip
 - Paste script:
 ```R
+# Auto-install required packages if missing
+required_packages <- c("dplyr", "ggplot2")
+new_packages <- required_packages[!(required_packages %in% installed.packages()[, "Package"])]
+if (length(new_packages)) install.packages(new_packages)
+
+# Load libraries
+library(dplyr)
 library(ggplot2)
 
-# Load your merged GC content file
+# Read GC data
 df <- read.csv("gc_merged.csv")
+df$GC_percent <- df$GC_Content * 100
 
-# Plot GC content with samples colored by Source
-ggplot(df, aes(x = Start, y = GC_Content * 100, color = Source, group = Sample)) +
-  geom_line(alpha = 0.6) +
+# Flag outliers using z-score method
+df <- df %>%
+  group_by(Sample) %>%
+  mutate(zscore = (GC_percent - mean(GC_percent)) / sd(GC_percent),
+         is_outlier = abs(zscore) > 2)
+
+# Plot GC content with outliers in red
+ggplot(df, aes(x = Start, y = GC_percent, group = Sample)) +
+  geom_line(aes(color = Source), alpha = 0.5) +
+  geom_point(data = filter(df, is_outlier), color = "red", size = 0.7) +
   facet_wrap(~ Sample, scales = "free_x") +
-  labs(x = "Genome Position (bp)", y = "GC Content (%)", color = "Source") +
+  labs(x = "Genome Position", y = "GC Content (%)", color = "Source") +
   theme_minimal()
+
 ```
 
 
