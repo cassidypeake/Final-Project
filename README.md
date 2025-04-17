@@ -215,6 +215,54 @@ ggplot(df, aes(x = Start, y = GC_percent, group = Sample)) +
 
 ```
 
+# Lets look for outliers in R. We are gonna use the z-score
+- Z-score interpretation:
+```
+Z-score	Interpretation
+0	Exactly average (same as the mean)
+±0.5	Slightly above or below average
+±1	1 SD from the mean (about 68% of data falls within ±1 SD)
+±2	Farther out, but still normal (95% of data falls within ±2 SD)
+±3 or more	Unusual/extreme (only 0.3% of data beyond ±3 SD)
+```
+This is the code to build an outliers plot with z-score greater than 3, we will call them "Atypical GC content".
 
+```
+library(dplyr)
+library(ggplot2)
 
+# Read and prepare data
+df <- read.csv("gc_merged.csv")
+df$GC_percent <- df$GC_Content * 100
+
+# Identify outliers per sample using Z-score
+df <- df %>%
+  group_by(Sample) %>%
+  mutate(z = scale(GC_percent),
+         is_outlier = abs(z) > 3)
+
+# Summarize proportion of outliers per sample
+summary_df <- df %>%
+  group_by(Sample, Source) %>%
+  summarise(
+    total_windows = n(),
+    outlier_windows = sum(is_outlier),
+    prop_outlier = outlier_windows / total_windows
+  )
+
+# boxplot
+ggplot(summary_df, aes(x = Source, y = prop_outlier, fill = Source)) +
+  geom_boxplot(width = 0.5, alpha = 0.7, outlier.shape = NA) +
+  geom_jitter(aes(color = Source), width = 0.15, size = 2.5, alpha = 0.8) +
+  labs(
+    title = "Proportion of Atypical GC Windows by Sample Source",
+    x = "Sample Source",
+    y = "Proportion of GC Outliers [abs(z) > 3]"
+  ) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+```
+- Note that the number in this line must be changed to modify the z-score: is_outlier = abs(z) > 3)
+- If a different z-score is used, the title of the x axis should be changed as well: y = "Proportion of GC Outliers [abs(z) > 3]
 
